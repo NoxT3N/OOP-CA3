@@ -43,19 +43,21 @@ public class CA3_Question2
         int count = 1;
 
         while(!stack.isEmpty()){
-            Pair current = stack.pop();
+            Pair current = stack.pop(); //changes the current cell that needs to be filled
             r = current.row;
             c = current.col;
 
             if(arr[r][c] == 0 ){
-                arr[r][c] = count;
-                if(arr[r-1][c] == 0 && r-1 != -1) stack.push(new Pair(r-1,c)); //north
-                if(arr[r+1][c] == 0 && r+1 < 10) stack.push(new Pair(r+1,c)); //south
-                if(arr[r][c-1] == 0 && c-1 != -1) stack.push(new Pair( r,c-1)); //west
-                if(arr[r][c+1] == 0 && c+1 < 10) stack.push(new Pair(r,c+1)); //east
+                arr[r][c] = count; //if cell is 0 then it needs to be filled with the appropriate number
+
+                //gets the coordinate of the neighbouring cells
+                if(r-1 != -1 && arr[r-1][c] == 0 ) stack.push(new Pair(r-1,c)); //north
+                if(c+1 < 10 && arr[r][c+1] == 0) stack.push(new Pair(r,c+1)); //east
+                if(r+1 < 10 && arr[r+1][c] == 0) stack.push(new Pair(r+1,c)); //south
+                if(c-1 != -1 && arr[r][c-1] == 0) stack.push(new Pair( r,c-1)); //west
+
 
                 count++;
-                display(arr);
             }
         }
 
@@ -84,8 +86,8 @@ public class CA3_Question2
     }
 
     public static class Pair {
-        int row;
-        int col;
+        public int row;
+        public int col;
 
         public Pair(int row, int col) {
             this.row = row;
