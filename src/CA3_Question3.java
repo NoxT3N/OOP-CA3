@@ -1,14 +1,46 @@
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
 /**
- *  Name:
- *  Class Group:
+ *  Name: Brindusa Dumitru
+ *  Class Group: GD2a
  */
 
 public class CA3_Question3
 {
-    public static void readFile(String fileName)
-    {
+    public static void readFile(String fileName) throws FileNotFoundException {
+        Scanner in = new Scanner(new File(fileName));
+        in.useDelimiter("[^A-Za-z0-9_]+");
+        Map<String, ArrayList<String>> identifiers = new HashMap<>();
+        int lineNum = 1;
 
+        while(in.hasNext()){
+            String identifier = in.next();
+            String line = "Line "+ lineNum+": "+ in.nextLine();
+
+            if(!identifiers.containsKey(identifier)){
+                ArrayList<String> lines = new ArrayList<>();
+                lines.add(line);
+
+                identifiers.put(identifier,lines);
+            }
+            else{//else if identifier already exist add line in the lines arraylist
+                identifiers.get(identifier).add(line);
+            }
+            lineNum++;
+        }
+
+        for (Map.Entry<String, ArrayList<String>> entry : identifiers.entrySet()) {
+            System.out.println("\nIdentifier: " + entry.getKey());
+            for (String location : entry.getValue()) {
+                System.out.println(location);
+            }
+        }
+        
     }
 
     public static void main(String[] args) throws FileNotFoundException {
