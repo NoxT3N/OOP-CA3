@@ -15,6 +15,8 @@ public class CA3_Question3
     public static void readFile(String fileName) throws FileNotFoundException {
         Scanner in = new Scanner(new File(fileName));
         in.useDelimiter("[^A-Za-z0-9_]+");
+        Scanner getLine = new Scanner(new File(fileName));
+
         Map<String, ArrayList<String>> identifiers = new HashMap<>();
         int lineNum = 1;
 
@@ -22,13 +24,13 @@ public class CA3_Question3
             String identifier = in.next();
             String line = "Line "+ lineNum+": "+ in.nextLine();
 
-            if(!identifiers.containsKey(identifier)){
+            if(!identifiers.containsKey(identifier)){ //if identifier does not exist add it to the map
                 ArrayList<String> lines = new ArrayList<>();
                 lines.add(line);
 
                 identifiers.put(identifier,lines);
             }
-            else{//else if identifier already exist add line in the lines arraylist
+            else{//else  add line in the lines arraylist
                 identifiers.get(identifier).add(line);
             }
             lineNum++;
