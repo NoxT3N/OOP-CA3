@@ -14,25 +14,32 @@ public class CA3_Question3
 {
     public static void readFile(String fileName) throws FileNotFoundException {
         Scanner in = new Scanner(new File(fileName));
-        in.useDelimiter("[^A-Za-z0-9_]+");
-        Scanner getLine = new Scanner(new File(fileName));
 
         Map<String, ArrayList<String>> identifiers = new HashMap<>();
         int lineNum = 1;
 
-        while(in.hasNext()){
-            String identifier = in.next();
-            String line = "Line "+ lineNum+": "+ in.nextLine();
+        while(in.hasNextLine()){
+            String line = in.nextLine();
+            String numberedline = "Line "+ lineNum+": " + line;
 
-            if(!identifiers.containsKey(identifier)){ //if identifier does not exist add it to the map
-                ArrayList<String> lines = new ArrayList<>();
-                lines.add(line);
+            Scanner getIdent = new Scanner(line);
+            getIdent.useDelimiter("[^A-Za-z0-9_]+");
 
-                identifiers.put(identifier,lines);
+            while(getIdent.hasNext()){
+                String identifier = getIdent.next();
+
+                if(!identifiers.containsKey(identifier)){ //if identifier does not exist add it to the map
+                    ArrayList<String> lines = new ArrayList<>();
+                    lines.add(numberedline);
+
+                    identifiers.put(identifier,lines);
+                }
+                else{//else  add line in the lines arraylist
+                    identifiers.get(identifier).add(numberedline);
+                }
+
             }
-            else{//else  add line in the lines arraylist
-                identifiers.get(identifier).add(line);
-            }
+
             lineNum++;
         }
 
