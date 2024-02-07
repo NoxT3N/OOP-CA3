@@ -1,8 +1,11 @@
 
+import java.sql.SQLOutput;
+import java.util.LinkedList;
 import java.util.Scanner;
+import java.util.Queue;
 /**
- *  Name:
- *  Class Group:
+ *  Name: Brindusa Dumitru
+ *  Class Group: GD2a
  */
 public class CA3_Question6
 {
@@ -16,25 +19,52 @@ public class CA3_Question6
     quit
      */
     public static void main(String[] args) {
-
        Scanner in = new Scanner(System.in);
+       Queue <Block> stocks = new LinkedList<>();
         String command="";
             do {
             System.out.print(">");
             command = in.next();
             if(command.equalsIgnoreCase("buy"))
             {
+                System.out.print("Quantity:");
                 int qty = in.nextInt();
+                System.out.print("Price:");
                 double price = in.nextDouble();
+                stocks.add(new Block(qty,price));
 
             }
-            else if(command.equals("sell"))
-            {
+            else if (command.equals("sell")) {
+                System.out.print("Quantity:");
                 int qty = in.nextInt();
+                System.out.print("Price:");
                 double price = in.nextDouble();
+                double profit = 0;
 
+                while (qty > 0 && !stocks.isEmpty()) {
+                    Block current = stocks.poll();
 
+                    int toSell = Math.min(qty, current.qty);
+                    double blockProfit = toSell * (price - current.price);
+
+                    qty = qty - toSell;
+                    profit = profit + blockProfit;
+
+                    current.qty = current.qty - toSell;
+                    if (current.qty > 0) stocks.add(current);
+                }
+
+                System.out.println("Profit: $" + profit);
             }
         }while(!command.equalsIgnoreCase("quit"));
+    }
+
+    public static class Block{
+        public int qty;
+        public double price;
+        public Block(int qty, double price) {
+            this.qty = qty;
+            this.price = price;
+        }
     }
 }
