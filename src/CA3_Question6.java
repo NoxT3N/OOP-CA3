@@ -1,5 +1,3 @@
-
-import java.sql.SQLOutput;
 import java.util.LinkedList;
 import java.util.Scanner;
 import java.util.Queue;
@@ -21,7 +19,7 @@ public class CA3_Question6
     public static void main(String[] args) {
        Scanner in = new Scanner(System.in);
        Queue <Block> stocks = new LinkedList<>();
-        String command="";
+        String command;
             do {
             System.out.print(">");
             command = in.next();
@@ -37,12 +35,14 @@ public class CA3_Question6
             else if (command.equals("sell")) {
                 System.out.print("Quantity:");
                 int qty = in.nextInt();
+
                 System.out.print("Price:");
                 double price = in.nextDouble();
+
                 double profit = 0;
 
                 while (qty > 0 && !stocks.isEmpty()) {
-                    Block current = stocks.poll();
+                    Block current = stocks.peek();
 
                     int toSell = Math.min(qty, current.qty);
                     double blockProfit = toSell * (price - current.price);
@@ -50,8 +50,8 @@ public class CA3_Question6
                     qty = qty - toSell;
                     profit = profit + blockProfit;
 
-                    current.qty = current.qty - toSell;
-                    if (current.qty > 0) stocks.add(current);
+                    stocks.peek().qty = stocks.peek().qty - toSell;
+                    if (stocks.peek().qty == 0) stocks.remove();
                 }
 
                 System.out.println("Profit: $" + profit);
