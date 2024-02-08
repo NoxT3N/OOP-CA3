@@ -40,21 +40,25 @@ public class CA3_Question6
                 double price = in.nextDouble();
 
                 double profit = 0;
+                if(!stocks.isEmpty()) {
+                    while (qty > 0 && !stocks.isEmpty()) {
+                        Block current = stocks.peek();
 
-                while (qty > 0 && !stocks.isEmpty()) {
-                    Block current = stocks.peek();
+                        int toSell = Math.min(qty, current.qty);
+                        double blockProfit = toSell * (price - current.price);
 
-                    int toSell = Math.min(qty, current.qty);
-                    double blockProfit = toSell * (price - current.price);
+                        qty = qty - toSell;
+                        profit = profit + blockProfit;
 
-                    qty = qty - toSell;
-                    profit = profit + blockProfit;
+                        stocks.peek().qty = stocks.peek().qty - toSell;
+                        if (stocks.peek().qty == 0) stocks.remove();
+                    }
 
-                    stocks.peek().qty = stocks.peek().qty - toSell;
-                    if (stocks.peek().qty == 0) stocks.remove();
+                    System.out.println("Profit: $" + profit);
                 }
-
-                System.out.println("Profit: $" + profit);
+                else{
+                    System.out.println("You have no shares to sell");
+                }
             }
         }while(!command.equalsIgnoreCase("quit"));
     }

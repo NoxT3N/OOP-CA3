@@ -1,7 +1,7 @@
 import java.util.*;
 /**
- *  Name:
- *  Class Group:
+ *  Name: Brindusa Dumitru
+ *  Class Group: GD2a
  */
 public class CA3_Question7
 {
@@ -56,6 +56,20 @@ public class CA3_Question7
                 double price = in.nextDouble();
 
                 double profit = 0;
+
+                while(qty > 0 && !stocks.get(company).isEmpty()){
+                    Block current = stocks.get(company).peek();
+
+                    int toSell = Math.min(qty, current.qty);
+                    double blockProfit = toSell * (price - current.price);
+
+                    qty = qty - toSell;
+                    profit = profit + blockProfit;
+
+                    stocks.get(company).peek().qty -= toSell;
+
+                    if (stocks.get(company).peek().qty == 0) stocks.get(company).remove();
+                }
 
                 System.out.println("Profit: $" + profit);
 
